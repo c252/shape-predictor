@@ -51,7 +51,7 @@ model.add(Flatten())
 
 model.add(Dense(64))
 model.add(Dense(3))
-model.add(Activation('sigmmoid'))
+model.add(Activation('sigmoid'))
 
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer='adam', metrics=['accuracy'])
