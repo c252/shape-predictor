@@ -11,9 +11,8 @@ from tensorflow.keras.layers import *
 
 random.seed()
 
-CATEGORIES = ["circle","triangle","star"]
+CATEGORIES = ["triangle","circle","star"]
 
-#0 = circle 1 = triangle 2 = star
 
 training = []
 
@@ -34,28 +33,24 @@ for i,j in training:
 #   plt.imshow(x[random.randint(0,len(x))],cmap='gray')
 #   plt.show()
 
-x = np.array(x).reshape(-1,50,50,1)
+x = np.array(x)
 x = x/255.0
 
 model = Sequential()
 
-model.add(Conv2D(128,(3,3),input_shape=x.shape[1:]))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(tf.keras.layers.Flatten(input_shape=(75,75)))
 
-model.add(Conv2D(128,(3,3)))
-model.add(Activation('relu'))
-model.add(MaxPooling2D(pool_size=(2,2)))
+model.add(tf.keras.layers.Dense(256, activation=tf.nn.relu))
 
-model.add(Flatten())
+model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
 
-model.add(Dense(64))
-model.add(Dense(3))
-model.add(Activation('sigmoid'))
+model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
+
+model.add(tf.keras.layers.Dense(len(CATEGORIES), activation=tf.nn.softmax))
 
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer='adam', metrics=['accuracy'])
 
-model.fit(x,y,batch_size=32,epochs=20,validation_split=1)
+model.fit(x, y, epochs=10)
 
 model.save('shape-pred.model')
