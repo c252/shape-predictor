@@ -40,17 +40,21 @@ model = Sequential()
 
 model.add(tf.keras.layers.Flatten(input_shape=(75,75)))
 
-model.add(tf.keras.layers.Dense(256, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(256, activation="relu"))
 
-model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(256, activation="relu"))
 
-model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(256, activation="relu"))
 
-model.add(tf.keras.layers.Dense(len(CATEGORIES), activation=tf.nn.softmax))
+model.add(tf.keras.layers.Dense(128, activation="relu"))
+
+model.add(tf.keras.layers.Dense(64, activation="relu"))
+
+model.add(tf.keras.layers.Dense(len(CATEGORIES), activation="softmax"))
 
 model.compile(loss='sparse_categorical_crossentropy',
               optimizer='adam', metrics=['accuracy'])
 
-model.fit(x, y, epochs=10)
+model.fit(x, y, epochs=30)
 
 model.save('shape-pred.model')

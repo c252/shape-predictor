@@ -1,9 +1,9 @@
 import os
 import cv2
 
-data = "/home/cb/ml-projects/shape-predict"
+data = "/home/cb/ml-projects/shape-predict/"
 
-SIZE = 50
+SIZE = 75
 
 def get_traindata(training_in,class_names):
   for i in class_names:

@@ -1,20 +1,26 @@
 import cv2
 import tensorflow as tf
 import sys
+import numpy as np
 
-
-categories = ["circle","triangle","star"]
+categories = ["triangle","circle","star"]
 
 def prep(path):
-  size = 50
+  SIZE = 75
   img_arr = cv2.imread(path, cv2.IMREAD_GRAYSCALE)
-  new_arr = cv2.resize(img_arr,(size,size))
-  return new_arr.reshape(-1,size,size,1)
+  new_arr = cv2.resize(img_arr,(SIZE,SIZE))
+  new_arr = np.array(new_arr)/255.0
+  new_arr = new_arr.reshape(1,SIZE,SIZE)
+  return new_arr
 
 model = tf.keras.models.load_model("shape-pred.model")
 
 prediction = model.predict(prep(sys.argv[1]))
 
-print(prediction[0][0])
+prediction = list(prediction)
 
-print(categories[int(prediction[0][0])])
+print("predictions:")
+
+print(f"triangle: {prediction[0][0]:.20f}")
+print(f"circle: {prediction[0][1]:.20f}")
+print(f"star: {prediction[0][2]:.20f}")
